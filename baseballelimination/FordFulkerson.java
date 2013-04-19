@@ -71,14 +71,7 @@ public class FordFulkerson {
         
         for (int i = 0; i < G.V(); i++) 
             if (ff.inMinCut(i))
-                System.out.println(i);
-        
-        /*if (ff.hasAugmentedPath(G, 0, 3)) {       
-            double min = Double.MAX_VALUE;
-            for (int n = 3; n != 0; n = ff.edgeTo[n].other(n)) {
-                System.out.println(ff.edgeTo[n]);                
-            }
-        }*/
+                System.out.println(i);       
     }
 
     
