@@ -7,6 +7,7 @@ package baseballelimination;
 import algs4.FlowEdge;
 import algs4.FlowNetwork;
 import algs4.FordFulkerson;
+import algs4.StdOut;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
@@ -124,11 +125,11 @@ public class BaseballElimination {
             FlowNetwork net = new FlowNetwork(N + ng + 2); // 1 team node is additional            
             
             // --- Edges from the team vertices to the sink vertex ---
-            for (int i = 0; i < N - 1; i++) {
+            for (int i = 0; i < N; i++) {
                 if (i == id) continue;
                 int limit = teams[id].wins + teams[id].remaining - teams[i].wins;                
                 if (limit < 0) { // because of the trivial elimination: w[x] + r[x] < w[i]                    
-                    eliminated[id].add(teams[i].name);
+                    eliminated[id].add(teams[i].name);                    
                     return true;
                 }
                 net.addEdge(new FlowEdge(ng + i + 1, ng + N + 1, limit)); // from team node to the sink node
@@ -148,9 +149,9 @@ public class BaseballElimination {
                     n++;
                 }
             }
-            
+                        
             FordFulkerson ff = new FordFulkerson(net, 0, N + ng + 1); // calculate maxFlow
-            for (int i = 0; i < N - 1; i++)
+            for (int i = 0; i < N; i++)
                     if (ff.inCut(ng + i + 1)) // if the team node i is in the min-cut
                         eliminated[id].add(teams[i].name);
             
@@ -169,11 +170,18 @@ public class BaseballElimination {
     }
     
     public static void main(String[] args) {
-        String fname = "/Users/huseyngasimov/NetBeansProjects/PrincentonAlgo2/testfiles/baseball/teams5b.txt";
-        BaseballElimination be = new BaseballElimination(fname);
-        
-        String team = "Toronto";
-        System.out.println(String.format("%s\t\t%d %d %d\t%s", team, be.wins(team), be.losses(team), be.remaining(team), String.valueOf(be.isEliminated(team))));
+        BaseballElimination division = new BaseballElimination(args[0]);
+        for (String team : division.teams()) {
+            if (division.isEliminated(team)) {
+                StdOut.print(team + " is eliminated by the subset R = { ");
+                for (String t : division.certificateOfElimination(team))
+                    StdOut.print(t + " ");
+                StdOut.println("}");
+            }
+            else {
+                StdOut.println(team + " is not eliminated");
+            }
+        }
     }
 }
 
