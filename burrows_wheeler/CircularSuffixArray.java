@@ -3,9 +3,9 @@
  * @author huseyngasimov
  */
 public class CircularSuffixArray {
-	private int[] index;
-	private String s;
-	private int N;
+    private int[] index;
+    private String s;
+    private int N;
     private static final int R      = 256;   // extended ASCII alphabet size
     private static final int CUTOFF =  15;   // cutoff to insertion sort 15
 
@@ -76,29 +76,29 @@ public class CircularSuffixArray {
     }
 	
 	// i-th substring starting at character d
-	private String substring(int i, int d) {
-		if (d < 0 || d > N-1) return null;
-		if (d < N-i) return s.substring(d + i, N) + s.substring(0, i);        
-		else return s.substring(d - N + i, i);
-	}
+    private String substring(int i, int d) {
+	if (d < 0 || d > N-1) return null;
+	if (d < N-i) return s.substring(d + i, N) + s.substring(0, i);        
+	else return s.substring(d - N + i, i);
+    }
 	
-	public CircularSuffixArray(String s) {
+    public CircularSuffixArray(String s) {
         this.s = s;
         N = s.length();
 
         index = new int[N];
         for(int i = 0; i < N; i++) index[i] = i;
 
-		int[] aux = new int[N];
+	int[] aux = new int[N];
         sort(0, N-1, 0, aux);
-	}
+    }
 	
-	public int length() { return s.length(); }
-	public int index(int i) { return index[i]; }
+    public int length() { return s.length(); }
+    public int index(int i) { return index[i]; }
 	
-	public static void main(String[] args) {
-		CircularSuffixArray csa = new CircularSuffixArray("ABRACADABRA!");
-		for (int i = 0; i < csa.length(); i++)
-			System.out.println(csa.index(i));
-	}
+    public static void main(String[] args) {
+	CircularSuffixArray csa = new CircularSuffixArray("ABRACADABRA!");
+	for (int i = 0; i < csa.length(); i++)
+		System.out.println(csa.index(i));
+    }
 }
